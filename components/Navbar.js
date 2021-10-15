@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { Button } from './Button';
 import './Navbar.css';
@@ -11,52 +11,74 @@ function Navbar() {
 
 
     const handleClick = () => setClick(!click);
-    const closeMobilemenu = () => setClick(false);
+    const closeMobileMenu = () => setClick(false);
+
 
     const showButton = () => {
         if (window.innerWidth <= 960) {
+            setButton(false);
         } else {
             setButton(true);
         }
-    }
+    };
 
+    useEffect(() => {
+        showButton()
+    }, []);
+
+    window.addEventListener('resize', showButton);
 
     return (
         <>
             <nav className='navbar'>
                 <div className='navbar-container'>
-                    <Link to='/' className="navbar-logo">
-                        JDLV <i className='fab fa-typo3' ></i>
+                    <Link to='/' className='navbar-logo' onClick={closeMobileMenu}>
+                        JDLV
+                        <i class='fab fa-typo3' />
                     </Link>
                     <div className='menu-icon' onClick={handleClick}>
                         <i className={click ? 'fas fa-times' : 'fas fa-bars'} />
                     </div>
-
-                    <ul className={click ? 'nav-menu act active' : 'nav-menu'}>
-
+                    <ul className={click ? 'nav-menu active' : 'nav-menu'}>
                         <li className='nav-item'>
-                            <Link to='/Acc' className='nav-links' onClicks={closeMobilemenu}>
+                            <Link to='/' className='nav-links' onClick={closeMobileMenu}>
                                 Acceuil
                             </Link>
+                        </li>
+                        <li className='nav-item'>
+                            <Link
+                                to='/info'
+                                className='nav-links'
+                                onClick={closeMobileMenu}
+                            >
+                                Information
+                            </Link>
+                        </li>
+                        <li className='nav-item'>
+                            <Link
+                                to='/products'
+                                className='nav-links'
+                                onClick={closeMobileMenu}
+                            >
+                                Products
+                            </Link>
+                        </li>
 
-                            <li className='nav-item'>
-                                <Link to='/test' className='nav-links' onClicks={closeMobilemenu}>
-                                    Test
-                                </Link>
-                            </li>
-
-                            <li className='nav-item'>
-                                <Link to='/Info' className='nav-links' onClicks={closeMobilemenu}>
-                                    Information
-                                </Link>
-                            </li>
+                        <li>
+                            <Link
+                                to='/dowload'
+                                className='nav-links-mobile'
+                                onClick={closeMobileMenu}
+                            >
+                                Dowload
+                            </Link>
                         </li>
                     </ul>
-                    {button && <Button buttonStyle='btn--outline'>Download</Button>}
+                    {button && <Button buttonStyle='btn--outline'>Dowload</Button>}
                 </div>
             </nav>
         </>
-    )
+    );
 }
 
 export default Navbar;
